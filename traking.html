@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>AOI Issues</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+    button {
+      background: #1976d2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h3>Registro de Issue AOI</h3>
+
+<form id="form">
+
+  <input type="text" name="week" placeholder="Week" required>
+  <input type="text" name="line" placeholder="Line" required>
+  <input type="text" name="model" placeholder="Model" required>
+  <input type="text" name="station" placeholder="Station" required>
+  <input type="text" name="category" placeholder="Category" required>
+
+  <input type="text" name="problem_type" placeholder="Problem type" required>
+
+  <textarea name="description" placeholder="Description" required></textarea>
+
+  <select name="status" required>
+    <option value="">Status</option>
+    <option value="Open">Open</option>
+    <option value="In progress">In progress</option>
+    <option value="Closed">Closed</option>
+  </select>
+
+  <input type="text" name="owner" placeholder="Owner" required>
+
+  <textarea name="correction_action" placeholder="Corrective action"></textarea>
+
+  <input type="date" name="date_finished">
+
+  <textarea name="comentarios" placeholder="Comentarios"></textarea>
+
+  <input type="text" name="evidence" placeholder="Evidence (link o texto)">
+
+  <button type="submit">Enviar</button>
+</form>
+
+<script>
+document.getElementById("form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const url = "https://script.google.com/macros/s/AKfycbzkt8QRJIlemD_l3ONGyH1phEbsWT2EL7f9zVmxTetciMZ9wPwe8V27Y_0y8dGVstSTCQ/exec
+  ";
+
+  const params = new URLSearchParams(new FormData(this));
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params
+    });
+
+    const result = await response.json();
+
+    if (result.status !== "ok") {
+      throw new Error(result.message);
+    }
+
+    alert("✅ Issue registrado correctamente");
+    this.reset();
+
+  } catch (error) {
+    alert("❌ Error al enviar");
+    console.error(error);
+  }
+});
+</script>
+
+</body>
+</html>
