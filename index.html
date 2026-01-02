@@ -2,91 +2,56 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>AOI Issues</title>
-  <style>
-    body {
-      font-family: Arial;
-      max-width: 500px;
-      margin: auto;
-    }
-    input, textarea, select, button {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-    }
-    button {
-      background: #1976d2;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario AOI</title>
 </head>
 <body>
 
-<h3>Registro de Issue AOI</h3>
+<h2>Formulario AOI</h2>
 
-<form id="form">
+<form id="formulario">
+  <input name="week" placeholder="Week" required><br><br>
+  <input name="line" placeholder="Line" required><br><br>
+  <input name="model" placeholder="Model" required><br><br>
+  <input name="station" placeholder="Station" required><br><br>
+  <input name="category" placeholder="Category" required><br><br>
+  <input name="problem_type" placeholder="Problem Type" required><br><br>
+  <input name="description" placeholder="Description" required><br><br>
+  <input name="owner" placeholder="Owner" required><br><br>
 
-  <input type="text" name="week" placeholder="Week" required>
-  <input type="text" name="line" placeholder="Line" required>
-  <input type="text" name="model" placeholder="Model" required>
-  <input type="text" name="station" placeholder="Station" required>
-  <input type="text" name="category" placeholder="Category" required>
+  <textarea name="correction_action" placeholder="Correction Action"></textarea><br><br>
 
-  <input type="text" name="problem_type" placeholder="Problem type" required>
+  <input type="date" name="date_finished" required><br><br>
 
-  <textarea name="description" placeholder="Description" required></textarea>
-
-  <select name="status" required>
-    <option value="">Status</option>
-    <option value="Open">Open</option>
-    <option value="In progress">In progress</option>
-    <option value="Closed">Closed</option>
-  </select>
-
-  <input type="text" name="owner" placeholder="Owner" required>
-
-  <textarea name="correction_action" placeholder="Corrective action"></textarea>
-
-  <input type="date" name="date_finished">
-
-  <textarea name="comentarios" placeholder="Comentarios"></textarea>
-
-  <input type="text" name="evidence" placeholder="Evidence (link o texto)">
+  <textarea name="comentarios" placeholder="Comentarios"></textarea><br><br>
 
   <button type="submit">Enviar</button>
 </form>
 
 <script>
-document.getElementById("form").addEventListener("submit", async function(e) {
+console.log("JS CARGADO");
+
+document.getElementById("formulario").addEventListener("submit", function(e) {
   e.preventDefault();
+  alert("Submit interceptado");
 
-  const url = "https://script.google.com/macros/s/AKfycbzFo5ZFubUv2xveT7psPNZWQt4YTMc9qfUOfj7_MdQWWxxt2kn3K94kNCJskxKLoIssDA/exec
-";
+  const url = "PEGA_AQUI_TU_URL_DE_APPS_SCRIPT";
+  const formData = new FormData(this);
 
-  const params = new URLSearchParams(new FormData(this));
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params
-    });
-
-    const result = await response.json();
-
-    if (result.status !== "ok") {
-      throw new Error(result.message);
-    }
-
-    alert("✅ Issue registrado correctamente");
+  fetch(url, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(text => {
+    alert("Respuesta del servidor: " + text);
+    console.log(text);
     this.reset();
-
-  } catch (error) {
-    alert("❌ Error al enviar");
-    console.error(error);
-  }
+  })
+  .catch(err => {
+    alert("Error en fetch");
+    console.error(err);
+  });
 });
 </script>
 
